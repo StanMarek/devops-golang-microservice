@@ -58,7 +58,16 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'echo deploy'
+                    sh 'echo Deploying'
+                    sh 'docker build -t project-deploy -f Dockerfile.deploy .'
+                }
+            }
+            post {
+                success {
+                    sh 'echo Deploy finished'
+                }
+                failure {
+                    sh 'echo Deploy failure'
                 }
             }
         }

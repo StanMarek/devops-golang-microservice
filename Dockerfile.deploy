@@ -1,0 +1,7 @@
+FROM project-build:latest
+
+WORKDIR /server
+
+EXPOSE 9090
+
+CMD ["/product-go-micro"]
