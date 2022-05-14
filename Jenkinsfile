@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_USER = 'stanmarek'
-        DOCKERHUB_PASSWORD = 'gigasilnehaslo'
-    }
-
     stages {
         stage("Fetch dependencies") {
             steps {
@@ -60,7 +55,8 @@ pipeline {
             steps {
                 script {
                     sh 'echo Deploying'
-                    sh 'docker build -t stanmarek/devops-golang-project -f Dockerfile.deploy .'
+                    def tag_commit = GIT_COMMIT
+                    sh "docker build -t stanmarek/devops-golang-project:${tag_commit} -f Dockerfile.deploy ."
                 }
             }
             post {
