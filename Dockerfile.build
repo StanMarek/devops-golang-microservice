@@ -1,0 +1,7 @@
+FROM project-dep:latest
+
+WORKDIR /server
+
+RUN go mod tidy
+
+RUN make build

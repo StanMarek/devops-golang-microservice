@@ -3,7 +3,6 @@ package monitormodule
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -53,7 +52,7 @@ func dataAggregator(log *zap.Logger, trackData confMap, key string, aggregateCha
 				return err
 			}
 			// read the response body from the server
-			body, err := io.ReadAll(resp.Body)
+			body, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				log.Error(err.Error())
 			}

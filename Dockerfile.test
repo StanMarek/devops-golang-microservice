@@ -1,0 +1,7 @@
+FROM project-build:latest
+
+WORKDIR /server
+
+RUN make unit-tests
+
+RUN make functional-tests

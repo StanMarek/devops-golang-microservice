@@ -1,36 +1,66 @@
 pipeline {
-
     agent any
 
     stages {
-        stage("unit-test") {
+        stage("Fetch dependencies") {
             steps {
-                echo 'UNIT TEST EXECUTION STARTED'
-                sh 'make unit-tests'
+                script {
+                    sh 'echo Downolading dependencies'
+                    sh 'docker build -t project-dep:latest -f Dockerfile.dep .'
+                }
+            }
+            post {
+                success {
+                    sh 'echo Dependencies downloaded'
+                }
+                failure {
+                    sh 'echo Dependencies downloading failure'
+                }
             }
         }
-        stage("functional-test") {
+        
+        stage('Build') {
             steps {
-                echo 'FUNCTIONAL TEST EXECUTION STARTED'
-                sh 'make functional-tests'
+                script {
+                    sh 'echo Building'
+                    sh 'docker build -t project-build:latest -f Dockerfile.build .'
+                    sh 'rm -rf shared'
+                    sh 'mkdir shared'
+                    sh 'docker run project-build:latest -v \$(pwd)/shared:/out'
+                    sh 'ls shared'
+                }
+            }
+            post {
+                success {
+                    sh 'echo Build finished'
+                }
+                failure {
+                    sh 'echo Build failure'
+                }
             }
         }
-        stage("build") {
+        stage('Test') {
             steps {
-                echo 'BUILD EXECUTION STARTED'
-                sh 'go version'
-                sh 'go get ./...'
-                sh 'docker build . -t shadowshotx/product-go-micro'
+                script {
+                    sh 'echo Testing'
+                    sh 'docker build -t project-test -f Dockerfile.test .'
+                }
+            }
+            post {
+                success {
+                    sh 'echo Tests finished'
+                }
+                failure {
+                    sh 'echo Tests failure'
+                }
             }
         }
-        // stage('Docker Push') {
-        //     agent any
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-        //         sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-        //         sh 'docker push shadowshotx/product-go-micro'
-        //         }
-        //     }
-        // }
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'echo deploy'
+                }
+            }
+        }
     }
 }
