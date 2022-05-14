@@ -24,10 +24,6 @@ pipeline {
                 script {
                     sh 'echo Building'
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
-                    // sh 'rm -rf shared'
-                    // sh 'mkdir shared'
-                    // sh 'docker run project-build:latest -v \$(pwd)/shared:/out'
-                    // sh 'ls shared'
                 }
             }
             post {
@@ -69,6 +65,14 @@ pipeline {
                 failure {
                     sh 'echo Deploy failure'
                 }
+            }
+        }
+        stage('Publish') {
+            agent any
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')])
+                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                sh 'docker push stanmarek/devops-golang-project'
             }
         }
     }

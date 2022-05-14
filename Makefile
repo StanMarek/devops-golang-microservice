@@ -8,4 +8,4 @@ functional-tests:
 	go test ./functional_tests/transformer_test.go
 
 build:
-	go build -o /product-go-micro
+	go build -o /devops-golang-project
