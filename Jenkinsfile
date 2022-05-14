@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = 'stanmarek'
-        DOCKERHUB_PASSWORD = '26SC^rpe%/-gv-b'
+        DOCKERHUB_PASSWORD = 'gigasilnehaslo'
     }
 
     stages {
@@ -76,7 +76,7 @@ pipeline {
             agent any
             steps {
                 // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')])
-                sh "docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}"
+                sh 'docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}'
                 sh 'docker push stanmarek/devops-golang-project'
             }
         }
