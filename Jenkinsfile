@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    envirnoment {
+        DOCKERHUB_USER = 'stanmarek'
+        DOCKERHUB_PASSWORD = '26SC^rpe%/-gv-b'
+    }
+
     stages {
         stage("Fetch dependencies") {
             steps {
@@ -70,8 +75,8 @@ pipeline {
         stage('Publish') {
             agent any
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')])
-                sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')])
+                sh "docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}"
                 sh 'docker push stanmarek/devops-golang-project'
             }
         }
