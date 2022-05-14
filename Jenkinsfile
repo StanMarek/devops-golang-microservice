@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    envirnoment {
+    environment {
         DOCKERHUB_USER = 'stanmarek'
         DOCKERHUB_PASSWORD = '26SC^rpe%/-gv-b'
     }
