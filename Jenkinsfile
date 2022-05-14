@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        TAG_COMMIT = GIT_COMMIT
-    }
     stages {
         stage("Fetch dependencies") {
             steps {
@@ -58,6 +55,7 @@ pipeline {
             steps {
                 script {
                     sh 'echo Deploying'
+                    def TAG_COMMIT = GIT_COMMIT
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
                 }
             }
@@ -75,6 +73,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
                     sh "docker login -u ${dockerhubUser} -p ${dockerhubPassword}"
+                    def TAG_COMMIT = GIT_COMMIT
                     sh "docker push stanmarek/devops-golang-project:${TAG_COMMIT}"
                 }
             }
