@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     sh 'echo Deploying'
-                    sh 'docker build -t project-deploy -f Dockerfile.deploy .'
+                    sh 'docker build -t stanmarek/devops-golang-project -f Dockerfile.deploy .'
                 }
             }
             post {
