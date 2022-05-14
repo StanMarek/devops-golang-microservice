@@ -24,10 +24,10 @@ pipeline {
                 script {
                     sh 'echo Building'
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
-                    sh 'rm -rf shared'
-                    sh 'mkdir shared'
-                    sh 'docker run project-build:latest -v \$(pwd)/shared:/out'
-                    sh 'ls shared'
+                    // sh 'rm -rf shared'
+                    // sh 'mkdir shared'
+                    // sh 'docker run project-build:latest -v \$(pwd)/shared:/out'
+                    // sh 'ls shared'
                 }
             }
             post {
