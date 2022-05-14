@@ -73,8 +73,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
                     sh "docker login -u ${dockerhubUser} -p ${dockerhubPassword}"
-                    def TAG_COMMIT = GIT_COMMIT
-                    sh "docker push stanmarek/devops-golang-project:${TAG_COMMIT}"
+                    def TAG_COMMIT_PUSH = GIT_COMMIT
+                    sh "docker push stanmarek/devops-golang-project:${TAG_COMMIT_PUSH}"
                 }
             }
         }
