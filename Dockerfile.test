@@ -1,7 +1,9 @@
 FROM project-build:latest
 
-WORKDIR /server
+WORKDIR /volumein
 
 RUN make unit-tests
 
 RUN make functional-tests
+
+CMD [ "echo", "test passed container" ]

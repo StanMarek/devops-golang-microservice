@@ -2,4 +2,4 @@ FROM golang:1.17-alpine
 
 RUN apk add make gcc libc-dev
 
-COPY . /server
+CMD ["cp", ".", "/volumein"]

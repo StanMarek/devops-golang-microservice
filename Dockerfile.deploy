@@ -1,6 +1,6 @@
 FROM project-build:latest
 
-WORKDIR /server
+WORKDIR /volumeout
 
 EXPOSE 9090
 

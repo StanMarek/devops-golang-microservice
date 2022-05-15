@@ -1,7 +1,9 @@
 FROM project-dep:latest
 
-WORKDIR /server
+WORKDIR /volumein
 
 RUN go mod tidy
 
 RUN make build
+
+CMD ["cp", "devops-golang-project", "/volumeout"]
