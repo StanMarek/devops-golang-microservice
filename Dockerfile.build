@@ -5,5 +5,6 @@ RUN pwd
 RUN make build
 
 RUN ls -la
+RUN cd ../ & ls -la
 
 CMD ["cp", "devops-golang-project", "/volumeout/build/"]
