@@ -4,4 +4,4 @@ WORKDIR /volumein/source/
 RUN ls -la
 RUN make build
 
-CMD ["cp", "-r", "devops-golang-project", "../volumeout/build"]
+CMD ["cp", "devops-golang-project", "/volumeout/build/"]

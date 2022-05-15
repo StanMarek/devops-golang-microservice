@@ -8,4 +8,4 @@ WORKDIR /source
 
 RUN go mod tidy
 
-CMD ["cp", "-r", "/source", "../volumein/"]
+CMD ["cp", "-r", "/source", "/volumein/"]

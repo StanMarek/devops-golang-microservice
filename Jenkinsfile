@@ -8,6 +8,7 @@ pipeline {
                     sh 'echo Downolading dependencies'
 
                     sh 'mkdir -p shared_volume'
+                    sh 'mkdir -p shared_volume_out'
                     sh 'docker build -t project-dep:latest -f Dockerfile.dep .'
                     sh "docker run -v \$(pwd)/shared_volume:/volumein project-dep:latest"
                     sh 'ls ./shared_volume -la'
@@ -30,7 +31,7 @@ pipeline {
                     sh 'echo Building'
 
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
-                    sh "docker run -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout project-build:latest"
+                    sh "docker run -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume_out:/volumeout project-build:latest"
                     sh 'ls ./shared_volume -la'
                     sh 'ls shared_volume/source -la'
                 }
@@ -71,7 +72,7 @@ pipeline {
                     def TAG_COMMIT = GIT_COMMIT
                     def CONTAINER_NAME = 'deploy'
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
-                    sh "docker run --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT} "
+                    sh "docker run --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume_out:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT}"
                 }
             }
             post {
