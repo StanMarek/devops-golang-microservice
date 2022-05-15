@@ -9,7 +9,7 @@ pipeline {
 
                     sh 'mkdir -p shared_volume'
                     sh 'docker build -t project-dep:latest -f Dockerfile.dep .'
-                    sh "docker run project-dep:latest -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout -it"
+                    docker.run("project-dep:latest -v \$(pwd)/shared_volume:/volumein -it")
                     sh 'ls ./shared_volume -la'
                     sh 'ls shared_volume/source -la'
                 }
