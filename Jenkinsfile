@@ -9,7 +9,7 @@ pipeline {
 
                     sh 'mkdir -p shared_volume'
                     sh 'docker build -t project-dep:latest -f Dockerfile.dep .'
-                    sh "docker run -v \$(pwd)/shared_volume:/volumein -it project-dep:latest"
+                    sh "docker run -v \$(pwd)/shared_volume:/volumein project-dep:latest"
                     sh 'ls ./shared_volume -la'
                     sh 'ls shared_volume/source -la'
                 }
@@ -30,7 +30,7 @@ pipeline {
                     sh 'echo Building'
 
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
-                    sh "docker run project-build:latest -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout -it"
+                    sh "docker run -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout project-build:latest"
                     sh 'ls ./shared_volume -la'
                     sh 'ls shared_volume/source -la'
                 }
@@ -50,7 +50,7 @@ pipeline {
                     sh 'echo Testing'
 
                     sh 'docker build -t project-test -f Dockerfile.test .'
-                    sh "docker run project-test:latest -v \$(pwd)/shared_volume:/volumein -it"
+                    sh "docker run -v \$(pwd)/shared_volume:/volumein project-test:latest"
                     sh 'ls ./shared_volume -la'
                     sh 'ls shared_volume/source -la'
                 }
@@ -71,7 +71,7 @@ pipeline {
                     def TAG_COMMIT = GIT_COMMIT
                     def CONTAINER_NAME = 'deploy'
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
-                    sh "docker run stanmarek/devops-golang-project:${TAG_COMMIT} --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout"
+                    sh "docker run --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT} "
                 }
             }
             post {
