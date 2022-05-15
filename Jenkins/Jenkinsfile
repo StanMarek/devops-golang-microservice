@@ -70,9 +70,9 @@ pipeline {
                 script {
                     sh 'echo Deploying'
                     def TAG_COMMIT = GIT_COMMIT
-                    def CONTAINER_NAME = 'deploy'
+                    def CONTAINER_NAME = 'deploy-test'
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
-                    sh "docker run --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume_out:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT}"
+                    sh "docker run -rm --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume_out:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT}"
                     sh 'sleep 1000'
                     sh "docker stop ${CONTAINER_NAME}"
                 }
