@@ -1,6 +1,6 @@
 FROM project-dep:latest
 
-# WORKDIR /volumein/source/
+WORKDIR /volumein/source/
 
 RUN make unit-tests
 

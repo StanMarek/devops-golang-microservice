@@ -1,6 +1,6 @@
 FROM project-build:latest
 
-# WORKDIR /volumeout/build/
+WORKDIR /volumeout/build/
 
 EXPOSE 9090
 
