@@ -1,7 +1,5 @@
 FROM project-build:latest
 
-WORKDIR /volumeout/build/
-
 EXPOSE 9090
 
 CMD ["./devops-golang-project"]

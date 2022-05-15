@@ -1,7 +1,5 @@
 FROM project-dep:latest
 
-WORKDIR /volumein/source/
-
 RUN make unit-tests
 
 RUN make functional-tests
