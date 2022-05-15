@@ -2,4 +2,6 @@ FROM project-dep:latest
 
 RUN make build
 
+RUN ls -la
+
 CMD ["cp", "devops-golang-project", "/volumeout/build/"]
