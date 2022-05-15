@@ -1,5 +1,6 @@
 FROM project-dep:latest
 
+RUN ls -la
 WORKDIR /volumein/source/
 RUN ls -la
 RUN make build
