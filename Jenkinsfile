@@ -56,7 +56,10 @@ pipeline {
                 script {
                     sh 'echo Deploying'
                     def TAG_COMMIT = GIT_COMMIT
+                    def CONTAINER_NAME = 'deploy'
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
+                    sh "docker run stanmarek/devops-golang-project:${TAG_COMMIT} --name ${CONTAINER_NAME}"
+                    // sh "docker stop ${CONTAINER_NAME}"
                 }
             }
             post {
