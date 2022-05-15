@@ -5,11 +5,13 @@ pipeline {
         stage("Fetch dependencies") {
             steps {
                 script {
-                    sh 'docker volume create --name volumein'
-                    sh 'docker volume create --name volumeout'
                     sh 'echo Downolading dependencies'
+
+                    sh 'mkdir -p shared_volume'
                     sh 'docker build -t project-dep:latest -f Dockerfile.dep .'
-                    sh 'docker run project-dep:latest -v volumein:/volumein -v volumeout:/volumeout'
+                    sh "docker run project-dep:latest -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout -it"
+                    sh 'ls ./shared_volume -la'
+                    sh 'ls shared_volume/source -la'
                 }
             }
             post {
@@ -26,8 +28,11 @@ pipeline {
             steps {
                 script {
                     sh 'echo Building'
+
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
-                    sh 'docker run project-build:latest -v volumein:/volumein -v volumeout:/volumeout'
+                    sh "docker run project-build:latest -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout -it"
+                    sh 'ls ./shared_volume -la'
+                    sh 'ls shared_volume/source -la'
                 }
             }
             post {
@@ -43,8 +48,11 @@ pipeline {
             steps {
                 script {
                     sh 'echo Testing'
+
                     sh 'docker build -t project-test -f Dockerfile.test .'
-                    sh 'docker run project-test:latest -v volumein:/volumein -v volumeout:/volumeout'
+                    sh "docker run project-test:latest -v \$(pwd)/shared_volume:/volumein -it"
+                    sh 'ls ./shared_volume -la'
+                    sh 'ls shared_volume/source -la'
                 }
             }
             post {
@@ -63,8 +71,7 @@ pipeline {
                     def TAG_COMMIT = GIT_COMMIT
                     def CONTAINER_NAME = 'deploy'
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
-                    sh "docker run stanmarek/devops-golang-project:${TAG_COMMIT} --name ${CONTAINER_NAME} -v volumein:/volumein -v volumeout:/volumeout"
-                    // sh "docker stop ${CONTAINER_NAME}"
+                    sh "docker run stanmarek/devops-golang-project:${TAG_COMMIT} --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume:/volumeout"
                 }
             }
             post {
@@ -86,4 +93,9 @@ pipeline {
             }
         }
     }
+    // post {
+    //     always {
+    //         archiveArtifacts artifacts: 'shared_volume/'
+    //     }
+    // }
 }
