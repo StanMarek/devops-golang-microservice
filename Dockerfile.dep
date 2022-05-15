@@ -8,4 +8,6 @@ WORKDIR /source
 
 RUN go mod tidy
 
+RUN cat Makefile
+
 CMD ["cp", "-r", "/source", "/volumein/"]
