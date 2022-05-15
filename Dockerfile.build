@@ -1,5 +1,7 @@
 FROM project-dep:latest
 
+RUN pwd 
+
 RUN make build
 
 RUN ls -la
