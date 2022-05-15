@@ -1,9 +1,5 @@
 FROM project-dep:latest
 
-RUN pwd & ls -la
-
 RUN make build
-
-RUN ls -la
 
 CMD ["cp", "devops-golang-project", "/volumeout/"]

@@ -32,8 +32,8 @@ pipeline {
 
                     sh 'docker build -t project-build:latest -f Dockerfile.build .'
                     sh "docker run -v \$(pwd)/shared_volume:/volumein -v \$(pwd)/shared_volume_out:/volumeout project-build:latest"
-                    sh 'ls ./shared_volume -la'
-                    sh 'ls shared_volume/source -la'
+                    sh 'ls ./shared_volume_out -la'
+                    sh 'ls shared_volume_out/ -la'
                 }
             }
             post {
