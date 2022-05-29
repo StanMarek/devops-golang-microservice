@@ -5,7 +5,7 @@ pipeline {
         stage("Fetch dependencies") {
             steps {
                 script {
-                    sh 'echo Downolading dependencies'
+                    sh 'echo Downloading dependencies'
 
                     sh 'mkdir -p shared_volume'
                     sh 'mkdir -p shared_volume_out'
