@@ -22,7 +22,7 @@ import (
 )
 
 func PingHandler(rw http.ResponseWriter, r *http.Request) {
-	rw.Write([]byte("Your App seems Healthy"))
+	rw.Write([]byte("Your App seems Healthy - version 2.0 - kubernetes part 2"))
 }
 
 func simplePostHandler(rw http.ResponseWriter, r *http.Request) {
