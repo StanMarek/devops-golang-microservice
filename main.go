@@ -41,7 +41,15 @@ func simplePostHandler(rw http.ResponseWriter, r *http.Request) {
 	rw.Write([]byte("Post Request Recieved for the Success"))
 }
 
+func divide(x int) {
+	fmt.Printf("divide(%d) \n", x+0/x)
+	divide(x - 1)
+}
+
 func main() {
+
+	divide(1)
+
 	log, _ := zap.NewProduction()
 	defer log.Sync()
 
