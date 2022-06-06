@@ -47,27 +47,27 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    sh 'echo Testing'
+        // stage('Test') {
+        //     steps {
+        //         script {
+        //             sh 'echo Testing'
 
-                    sh 'docker build -t project-test -f Dockerfile.test .'
-                    sh "docker run -v \$(pwd)/shared_volume:/volumein project-test:latest"
+        //             sh 'docker build -t project-test -f Dockerfile.test .'
+        //             sh "docker run -v \$(pwd)/shared_volume:/volumein project-test:latest"
 
-                    sh 'ls ./shared_volume -la'
-                    sh 'ls shared_volume/source -la'
-                }
-            }
-            post {
-                success {
-                    sh 'echo Tests finished'
-                }
-                failure {
-                    sh 'echo Tests failure'
-                }
-            }
-        }
+        //             sh 'ls ./shared_volume -la'
+        //             sh 'ls shared_volume/source -la'
+        //         }
+        //     }
+        //     post {
+        //         success {
+        //             sh 'echo Tests finished'
+        //         }
+        //         failure {
+        //             sh 'echo Tests failure'
+        //         }
+        //     }
+        // }
         stage('Deploy') {
             steps {
                 script {
@@ -77,12 +77,12 @@ pipeline {
                     def CONTAINER_NAME = 'deploy-test'
 
                     sh "docker build -t stanmarek/devops-golang-project:${TAG_COMMIT} -f Dockerfile.deploy ."
-                    sh "docker run --rm -d --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume_out:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT}"
-                    sh "docker logs ${CONTAINER_NAME}"
+                    // sh "docker run --rm -d --name ${CONTAINER_NAME} -v \$(pwd)/shared_volume_out:/volumeout stanmarek/devops-golang-project:${TAG_COMMIT}"
+                    // sh "docker logs ${CONTAINER_NAME}"
 
-                    sh 'sleep 10'
+                    // sh 'sleep 10'
 
-                    sh "docker stop ${CONTAINER_NAME}"
+                    // sh "docker stop ${CONTAINER_NAME}"
                 }
             }
             post {
